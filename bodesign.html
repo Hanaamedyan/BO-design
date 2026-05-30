@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BO-Design AS — Interiørdesign med sjel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Josefin+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/outfit@5/index.css"/>
+  <style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --cream:     #FDFAF5;
+      --cream-2:   #F7F1E8;
+      --cream-3:   #EEE4D4;
+      --cream-4:   #E4D8C4;
+      --char:      #1A1714;
+      --char-2:    #2D2820;
+      --char-3:    #42392E;
+      --gold:      #BFA05A;
+      --gold-dk:   #9C8038;
+      --gold-lt:   #DFC880;
+      --gold-dim:  rgba(191,160,90,.1);
+      --gold-thin: rgba(191,160,90,.35);
+      --rose:      #C4907A;
+      --rose-lt:   #F2E8E3;
+      --muted:     #907E6E;
+      --muted-2:   #BEB0A4;
+      --border:    #DDD4C4;
+      --white:     #FFFFFF;
+      --text:      #1A1714;
+      --text-2:    #4A3E34;
+      --shadow:    0 8px 40px rgba(26,23,20,.08);
+      --shadow-lg: 0 20px 72px rgba(26,23,20,.12);
+    }
+    html { scroll-behavior:smooth; }
+    body { background:var(--cream); color:var(--text); font-family:'Josefin Sans',sans-serif; overflow-x:hidden; cursor:none; }
+    ::-webkit-scrollbar { width:2px; }
+    ::-webkit-scrollbar-track { background:var(--cream-2); }
+    ::-webkit-scrollbar-thumb { background:var(--gold); }
+
+    /* ── CUSTOM CURSOR ── */
+    #cur {
+      position:fixed; width:8px; height:8px; border-radius:50%;
+      background:var(--gold); pointer-events:none; z-index:9999;
+      transform:translate(-50%,-50%); transition:width .3s,height .3s,background .3s;
+      mix-blend-mode:multiply;
+    }
+    #cur-ring {
+      position:fixed; width:32px; height:32px;
+      border:1px solid rgba(191,160,90,.5); border-radius:50%;
+      pointer-events:none; z-index:9998; transform:translate(-50%,-50%);
+      transition:left .12s ease,top .12s ease,width .3s,height .3s;
+    }
+    body.cg #cur { width:48px; height:48px; }
+    body.cg #cur-ring { width:64px; height:64px; border-color:rgba(191,160,90,.3); }
+
+    /* ── REVEALS ── */
+    .reveal { opacity:0; transform:translateY(40px); transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1); }
+    .reveal.on { opacity:1; transform:translateY(0); }
+    .d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}
+    .reveal-l { opacity:0; transform:translateX(-52px); transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1); }
+    .reveal-l.on { opacity:1; transform:translateX(0); }
+    .reveal-r { opacity:0; transform:translateX(52px); transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1); }
+    .reveal-r.on { opacity:1; transform:translateX(0); }
+    .img-wipe { clip-path:inset(0 100% 0 0); transition:clip-path 1.1s cubic-bezier(.77,0,.18,1); }
+    .img-wipe.on { clip-path:inset(0 0% 0 0); }
+
+    /* ── ORNAMENTS ── */
+    .orn { display:flex; align-items:center; gap:14px; color:var(--gold); width:100%; }
+    .orn-line { flex:1; height:1px; background:var(--gold-thin); }
+    .orn-diamond { width:7px; height:7px; background:var(--gold); transform:rotate(45deg); flex-shrink:0; }
+    .orn-sm { width:fit-content; }
+    .orn-sm .orn-line { width:40px; flex:none; }
+
+    /* ── NAV ── */
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 60px; height:76px;
+      transition:background .4s, border-bottom .4s;
+    }
+    nav.scrolled { background:rgba(253,250,245,.97); backdrop-filter:blur(16px); border-bottom:1px solid var(--border); }
+    .nav-logo { display:flex; align-items:center; gap:10px; text-decoration:none; cursor:none; }
+    .nav-logo-mark {
+      width:32px; height:32px; border:1px solid var(--gold);
+      display:flex; align-items:center; justify-content:center;
+      transition:background .25s;
+    }
+    .nav-logo-mark:hover { background:var(--gold-dim); }
+    .nav-logo-mark svg { width:16px; height:16px; color:var(--gold); }
+    .nav-logo-text {
+      font-family:'Josefin Sans',sans-serif;
+      font-weight:700; font-size:14px; letter-spacing:4px; text-transform:uppercase; color:var(--char);
+    }
+    .nav-links { display:flex; align-items:center; gap:40px; list-style:none; }
+    .nav-links a {
+      font-size:11px; font-weight:600; letter-spacing:3px; text-transform:uppercase;
+      color:var(--muted); text-decoration:none; cursor:none; position:relative;
+      transition:color .25s;
+    }
+    .nav-links a::after {
+      content:''; position:absolute; bottom:-4px; left:0; right:0; height:1px;
+      background:var(--gold); transform:scaleX(0); transform-origin:left; transition:transform .3s;
+    }
+    .nav-links a:hover { color:var(--char); }
+    .nav-links a:hover::after { transform:scaleX(1); }
+    .nav-cta {
+      font-family:'Josefin Sans',sans-serif; font-size:11px; font-weight:700;
+      letter-spacing:3px; text-transform:uppercase;
+      border:1px solid var(--char); color:var(--char); background:transparent;
+      padding:11px 24px; text-decoration:none; cursor:none;
+      transition:background .25s, color .25s, border-color .25s;
+    }
+    .nav-cta:hover { background:var(--char); color:var(--cream); }
+    .burger { display:none; flex-direction:column; gap:5px; cursor:none; background:none; border:none; padding:8px; }
+    .burger span { display:block; width:22px; height:1px; background:var(--char); transition:all .3s; }
+    .mob-nav {
+      display:none; position:fixed; inset:0; background:var(--cream); z-index:99;
+      flex-direction:column; align-items:center; justify-content:center; gap:28px;
+      border-top:2px solid var(--gold);
+    }
+    .mob-nav.open { display:flex; }
+    .mob-nav a {
+      font-family:'Cormorant Garamond',serif; font-style:italic;
+      font-size:52px; font-weight:500; color:var(--char); text-decoration:none; cursor:none; transition:color .2s;
+    }
+    .mob-nav a:hover { color:var(--gold); }
+
+    /* ── HERO ── */
+    #hjem {
+      display:grid; grid-template-columns:1fr 1fr; min-height:100vh;
+      position:relative;
+    }
+    .hero-left {
+      background:var(--cream);
+      display:flex; flex-direction:column; justify-content:center;
+      padding:120px 72px 80px 60px;
+      position:relative; z-index:1; overflow:hidden;
+    }
+    /* subtle dot pattern */
+    .hero-left::before {
+      content:''; position:absolute; inset:0;
+      background-image:radial-gradient(circle, rgba(191,160,90,.12) 1px, transparent 1px);
+      background-size:28px 28px;
+    }
+    /* large ghost letter */
+    .hero-ghost {
+      position:absolute; right:-40px; bottom:-60px;
+      font-family:'Cormorant Garamond',serif; font-weight:700; font-size:36vw;
+      color:transparent; -webkit-text-stroke:1px rgba(191,160,90,.05);
+      line-height:1; user-select:none; pointer-events:none; z-index:0;
+    }
+    .hero-left-inner { position:relative; z-index:1; }
+    .hero-eyebrow {
+      display:flex; align-items:center; gap:12px; margin-bottom:36px;
+      font-size:10px; font-weight:600; letter-spacing:4px; text-transform:uppercase; color:var(--gold);
+      opacity:0; transform:translateY(12px); transition:opacity .6s .2s,transform .6s .2s;
+    }
+    #hjem.on .hero-eyebrow { opacity:1; transform:translateY(0); }
+    .hero-eyebrow-line { width:32px; height:1px; background:var(--gold); }
+
+    .hero-title {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(60px,7vw,100px);
+      font-weight:400; line-height:.95; letter-spacing:-1px;
+      color:var(--char); margin-bottom:32px;
+    }
+    .hero-title .line { display:block; overflow:hidden; }
+    .hero-title .line span { display:block; transform:translateY(110%); transition:transform .95s cubic-bezier(.16,1,.3,1); }
+    #hjem.on .hero-title .line:nth-child(1) span { transform:translateY(0); transition-delay:.3s; }
+    #hjem.on .hero-title .line:nth-child(2) span { transform:translateY(0); transition-delay:.45s; }
+    #hjem.on .hero-title .line:nth-child(3) span { transform:translateY(0); transition-delay:.6s; }
+    .hero-title .italic { font-style:italic; }
+    .hero-title .gold { color:var(--gold); }
+
+    .hero-orn { margin:28px 0; opacity:0; transition:opacity .6s .8s; }
+    #hjem.on .hero-orn { opacity:1; }
+
+    .hero-sub {
+      font-size:15px; font-weight:300; letter-spacing:.5px; color:var(--muted);
+      line-height:1.9; max-width:400px; margin-bottom:40px;
+      opacity:0; transform:translateY(12px); transition:opacity .7s .9s,transform .7s .9s;
+    }
+    #hjem.on .hero-sub { opacity:1; transform:translateY(0); }
+
+    .hero-ctas {
+      display:flex; gap:16px; align-items:center;
+      opacity:0; transform:translateY(12px); transition:opacity .7s 1.05s,transform .7s 1.05s;
+    }
+    #hjem.on .hero-ctas { opacity:1; transform:translateY(0); }
+
+    .btn-primary {
+      display:inline-flex; align-items:center; gap:10px;
+      background:var(--char); color:var(--cream);
+      font-family:'Josefin Sans',sans-serif; font-size:11px; font-weight:700;
+      letter-spacing:3px; text-transform:uppercase;
+      padding:16px 32px; text-decoration:none; cursor:none;
+      transition:background .25s, transform .25s;
+    }
+    .btn-primary:hover { background:var(--gold); transform:translateY(-2px); }
+    .btn-primary svg { width:14px; height:14px; }
+
+    .btn-outline {
+      display:inline-flex; align-items:center; gap:10px;
+      border:1px solid var(--border); color:var(--char);
+      font-family:'Josefin Sans',sans-serif; font-size:11px; font-weight:600;
+      letter-spacing:3px; text-transform:uppercase;
+      padding:16px 32px; text-decoration:none; cursor:none;
+      transition:border-color .25s, color .25s, transform .25s;
+    }
+    .btn-outline:hover { border-color:var(--gold); color:var(--gold); transform:translateY(-2px); }
+
+    .hero-right { position:relative; overflow:hidden; }
+    .hero-right img {
+      width:100%; height:100%; object-fit:cover; object-position:center;
+      transform:scale(1.06);
+      transition:transform 10s cubic-bezier(.25,.46,.45,.94), filter .6s;
+      filter:saturate(.9) brightness(.95);
+    }
+    #hjem.on .hero-right img { transform:scale(1); }
+    .hero-right-ov {
+      position:absolute; inset:0;
+      background:linear-gradient(to right, var(--cream) 0%, transparent 25%);
+    }
+    /* gold corner accent */
+    .hero-corner-tl { position:absolute; top:40px; left:40px; width:60px; height:60px; border-top:1px solid var(--gold-thin); border-left:1px solid var(--gold-thin); z-index:2; }
+    .hero-corner-br { position:absolute; bottom:40px; right:40px; width:60px; height:60px; border-bottom:1px solid var(--gold-thin); border-right:1px solid var(--gold-thin); z-index:2; }
+
+    /* scroll indicator */
+    .hero-scroll {
+      position:absolute; bottom:36px; left:60px; z-index:2;
+      display:flex; align-items:center; gap:12px;
+      font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--muted-2);
+      opacity:0; transition:opacity .6s 1.4s;
+    }
+    #hjem.on .hero-scroll { opacity:1; }
+    .hs-line { width:40px; height:1px; background:var(--gold-thin); position:relative; overflow:hidden; }
+    .hs-line::after { content:''; position:absolute; top:0; left:0; width:40%; height:100%; background:var(--gold); animation:hsdown 2s ease infinite; }
+    @keyframes hsdown { 0%{left:-40%}100%{left:140%} }
+
+    /* ── MARQUEE ── */
+    .mq-section { padding:20px 0; background:var(--cream-2); border-top:1px solid var(--border); border-bottom:1px solid var(--border); overflow:hidden; }
+    .mq-track { display:flex; width:max-content; animation:mq 30s linear infinite; }
+    .mq-track:hover { animation-play-state:paused; }
+    @keyframes mq { 0%{transform:translateX(0)}100%{transform:translateX(-50%)} }
+    .mq-item { display:flex; align-items:center; gap:20px; padding:0 24px; white-space:nowrap; }
+    .mq-item span { font-family:'Josefin Sans',sans-serif; font-size:11px; font-weight:400; letter-spacing:4px; text-transform:uppercase; color:var(--muted-2); }
+    .mq-item span.hl { color:var(--gold); font-weight:600; }
+    .mq-orn { width:5px; height:5px; background:var(--gold-thin); transform:rotate(45deg); flex-shrink:0; }
+
+    /* ── SHARED ── */
+    .s-eye {
+      display:flex; align-items:center; gap:12px;
+      font-size:10px; font-weight:600; letter-spacing:4px; text-transform:uppercase; color:var(--gold);
+      margin-bottom:16px;
+    }
+    .s-eye::before { content:''; display:block; width:24px; height:1px; background:var(--gold); }
+    .s-title {
+      font-family:'Cormorant Garamond',serif; font-weight:400;
+      font-size:clamp(36px,4.5vw,58px); letter-spacing:-.5px; line-height:1.1; color:var(--char);
+    }
+    .s-title .italic { font-style:italic; }
+    .s-title .gold { color:var(--gold); }
+    .s-sub { font-size:14px; font-weight:300; letter-spacing:.5px; color:var(--muted); line-height:1.9; max-width:520px; }
+
+    /* ── OM LENE ── */
+    #om {
+      padding:120px 60px; background:var(--cream);
+      display:grid; grid-template-columns:1fr 1fr; gap:100px; align-items:center;
+      max-width:1400px; margin:0 auto;
+    }
+    .om-text {}
+    .om-quote {
+      font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:400;
+      font-size:clamp(24px,2.5vw,32px); line-height:1.55; color:var(--char);
+      margin:24px 0 32px; padding-left:24px; border-left:1px solid var(--gold-thin);
+    }
+    .om-body { font-size:14px; font-weight:300; letter-spacing:.5px; color:var(--muted); line-height:2; margin-bottom:36px; }
+    .om-sig { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:28px; color:var(--char); }
+    .om-sig span { display:block; font-family:'Josefin Sans',sans-serif; font-style:normal; font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); margin-top:4px; }
+    .om-img-wrap { position:relative; }
+    .om-img-frame { border:1px solid var(--border); padding:14px; }
+    .om-img-frame img { width:100%; height:580px; object-fit:cover; display:block; filter:saturate(.9); transition:filter .5s; }
+    .om-img-frame:hover img { filter:saturate(1.05); }
+    .om-corner-tl { position:absolute; top:-8px; left:-8px; width:52px; height:52px; border-top:1px solid var(--gold); border-left:1px solid var(--gold); }
+    .om-corner-br { position:absolute; bottom:-8px; right:-8px; width:52px; height:52px; border-bottom:1px solid var(--gold); border-right:1px solid var(--gold); }
+    .om-badge { position:absolute; bottom:24px; left:-28px; background:var(--char); color:var(--cream); padding:18px 24px; }
+    .om-badge-name { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:22px; }
+    .om-badge-role { font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); margin-top:3px; }
+
+    /* ── ORNAMENT DIVIDER ── */
+    .section-divider { padding:0 60px; max-width:1400px; margin:0 auto; }
+
+    /* ── TJENESTER ── */
+    #tjenester { padding:120px 0; background:var(--cream-2); }
+    .tj-inner { max-width:1400px; margin:0 auto; padding:0 60px; }
+    .tj-header { display:flex; align-items:flex-end; justify-content:space-between; gap:40px; margin-bottom:72px; }
+    .tj-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:2px; }
+    .tj-card {
+      background:var(--cream); padding:48px 40px; position:relative; overflow:hidden;
+      cursor:default; transition:background .3s, transform .25s, box-shadow .3s;
+    }
+    .tj-card:hover { background:var(--white); box-shadow:var(--shadow-lg); transform:translateY(-4px); }
+    .tj-card::after {
+      content:''; position:absolute; bottom:0; left:0; right:0; height:2px;
+      background:var(--gold); transform:scaleX(0); transform-origin:left; transition:transform .4s cubic-bezier(.16,1,.3,1);
+    }
+    .tj-card:hover::after { transform:scaleX(1); }
+    .tj-num {
+      font-family:'Cormorant Garamond',serif; font-style:italic;
+      font-size:72px; font-weight:300; color:rgba(191,160,90,.08); line-height:1; margin-bottom:-4px;
+    }
+    .tj-icon { width:44px; height:44px; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; margin-bottom:18px; transition:border-color .25s,background .25s; }
+    .tj-card:hover .tj-icon { border-color:var(--gold); background:var(--gold-dim); }
+    .tj-icon svg { width:20px; height:20px; color:var(--gold); }
+    .tj-title { font-family:'Cormorant Garamond',serif; font-weight:500; font-size:22px; letter-spacing:.3px; margin-bottom:12px; color:var(--char); }
+    .tj-desc { font-size:13px; font-weight:300; letter-spacing:.3px; color:var(--muted); line-height:1.85; margin-bottom:20px; }
+    .tj-price { font-family:'Josefin Sans',sans-serif; font-size:11px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:var(--gold); }
+
+    /* ── PROSESSEN ── */
+    #prosessen { padding:120px 60px; background:var(--char); position:relative; overflow:hidden; }
+    #prosessen::before {
+      content:''; position:absolute; inset:0;
+      background-image:radial-gradient(circle, rgba(191,160,90,.06) 1px, transparent 1px);
+      background-size:32px 32px;
+    }
+    .pro-inner { max-width:1400px; margin:0 auto; position:relative; z-index:1; }
+    .pro-header { text-align:center; margin-bottom:72px; }
+    .pro-header .s-eye { justify-content:center; }
+    .pro-header .s-eye::before { display:none; }
+    .pro-header .s-title { color:var(--cream); }
+    .pro-ghost {
+      position:absolute; top:-80px; left:50%; transform:translateX(-50%);
+      font-family:'Cormorant Garamond',serif; font-size:22vw; font-weight:700;
+      color:transparent; -webkit-text-stroke:1px rgba(191,160,90,.04);
+      white-space:nowrap; user-select:none; pointer-events:none;
+    }
+    .pro-steps { display:grid; grid-template-columns:repeat(4,1fr); gap:0; position:relative; }
+    .pro-steps::before {
+      content:''; position:absolute; top:20px; left:12%; right:12%; height:1px;
+      background:linear-gradient(90deg, var(--gold-thin), rgba(191,160,90,.6), var(--gold-thin));
+    }
+    .pro-step { padding:0 32px; text-align:center; }
+    .pro-num-wrap {
+      width:40px; height:40px; border:1px solid var(--gold-thin);
+      display:flex; align-items:center; justify-content:center;
+      margin:0 auto 28px; background:var(--char); position:relative; z-index:1;
+      transition:background .3s, border-color .3s;
+    }
+    .pro-step:hover .pro-num-wrap { background:var(--gold); border-color:var(--gold); }
+    .pro-num { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:18px; font-weight:400; color:var(--gold); transition:color .3s; }
+    .pro-step:hover .pro-num { color:var(--char); }
+    .pro-title { font-family:'Cormorant Garamond',serif; font-weight:400; font-size:20px; color:var(--cream); margin-bottom:10px; letter-spacing:.3px; }
+    .pro-desc { font-size:12px; font-weight:300; letter-spacing:.5px; color:rgba(253,250,245,.45); line-height:1.8; }
+
+    /* ── GALLERI ── */
+    #galleri { padding:120px 0; background:var(--cream); overflow:hidden; }
+    .gal-header { max-width:1400px; margin:0 auto; padding:0 60px; display:flex; align-items:flex-end; justify-content:space-between; gap:32px; margin-bottom:48px; }
+    .drag-hint { display:flex; align-items:center; gap:10px; font-size:10px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--muted-2); }
+    .drag-hint svg { width:16px; height:16px; color:var(--gold); }
+    .g-strip { display:flex; gap:3px; padding:0 60px; overflow-x:auto; cursor:grab; scrollbar-width:none; }
+    .g-strip:active { cursor:grabbing; }
+    .g-strip::-webkit-scrollbar { display:none; }
+    .g-card { flex-shrink:0; width:clamp(280px,26vw,420px); cursor:none; position:relative; overflow:hidden; }
+    .g-card-frame { border:1px solid var(--border); padding:10px; transition:border-color .3s; }
+    .g-card:hover .g-card-frame { border-color:var(--gold-thin); }
+    .g-card-img { width:100%; height:400px; overflow:hidden; position:relative; }
+    .g-card-img img {
+      width:100%; height:100%; object-fit:cover; display:block;
+      filter:saturate(.85); transition:transform .8s cubic-bezier(.25,.46,.45,.94), filter .4s;
+      pointer-events:none;
+    }
+    .g-card:hover .g-card-img img { transform:scale(1.06); filter:saturate(1.05); }
+    .g-card-body { padding:14px 4px 4px; }
+    .g-card-cat { font-size:9px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--gold); margin-bottom:4px; }
+    .g-card-name { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:20px; font-weight:400; color:var(--char); }
+
+    /* ── PRISER ── */
+    #priser { padding:120px 60px; background:var(--cream-2); }
+    .priser-inner { max-width:1400px; margin:0 auto; }
+    .priser-header { text-align:center; margin-bottom:64px; }
+    .priser-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:2px; }
+    .pris-card {
+      background:var(--cream); padding:44px 36px; position:relative;
+      transition:background .3s, box-shadow .3s, transform .25s;
+      cursor:default;
+    }
+    .pris-card:hover { background:var(--white); box-shadow:var(--shadow); transform:translateY(-4px); }
+    .pris-card.featured { background:var(--char); }
+    .pris-card.featured:hover { background:var(--char-2); }
+    .pris-card.featured::before { content:'Mest etterspurt'; position:absolute; top:20px; right:20px; font-size:9px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:var(--gold); }
+    .pc-eyebrow { font-size:9px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
+    .pc-name { font-family:'Cormorant Garamond',serif; font-weight:400; font-size:24px; letter-spacing:.3px; margin-bottom:6px; }
+    .pris-card:not(.featured) .pc-name { color:var(--char); }
+    .pris-card.featured .pc-name { color:var(--cream); }
+    .pc-price {
+      font-family:'Cormorant Garamond',serif; font-size:clamp(36px,4vw,52px);
+      font-weight:300; letter-spacing:-1px; line-height:1; margin:20px 0;
+    }
+    .pris-card:not(.featured) .pc-price { color:var(--char); }
+    .pris-card.featured .pc-price { color:var(--gold); }
+    .pc-price span { font-family:'Josefin Sans',sans-serif; font-size:13px; font-weight:400; letter-spacing:1px; }
+    .pc-divider { height:1px; background:var(--border); margin:18px 0; }
+    .pris-card.featured .pc-divider { background:rgba(255,255,255,.1); }
+    .pc-includes { display:flex; flex-direction:column; gap:10px; margin-bottom:28px; }
+    .pc-inc { display:flex; align-items:flex-start; gap:9px; font-size:12px; font-weight:300; letter-spacing:.5px; }
+    .pris-card:not(.featured) .pc-inc { color:var(--muted); }
+    .pris-card.featured .pc-inc { color:rgba(253,250,245,.65); }
+    .pc-dot { width:4px; height:4px; background:var(--gold); transform:rotate(45deg); flex-shrink:0; margin-top:5px; }
+    .pc-btn {
+      display:block; text-align:center; width:100%;
+      font-family:'Josefin Sans',sans-serif; font-size:10px; font-weight:700;
+      letter-spacing:3px; text-transform:uppercase; padding:14px;
+      text-decoration:none; cursor:none; transition:all .25s;
+    }
+    .pris-card:not(.featured) .pc-btn { border:1px solid var(--border); color:var(--char); }
+    .pris-card:not(.featured) .pc-btn:hover { border-color:var(--gold); color:var(--gold); }
+    .pris-card.featured .pc-btn { background:var(--gold); color:var(--char); }
+    .pris-card.featured .pc-btn:hover { background:var(--gold-lt); }
+
+    /* ── KONTAKT ── */
+    #kontakt-meg {
+      display:grid; grid-template-columns:1fr 1fr;
+      background:var(--cream);
+    }
+    .k-left { position:relative; overflow:hidden; min-height:680px; }
+    .k-left img { width:100%; height:100%; object-fit:cover; filter:saturate(.85) brightness(.9); }
+    .k-left-ov {
+      position:absolute; inset:0;
+      background:linear-gradient(to right, transparent 40%, var(--cream));
+      display:flex; flex-direction:column; justify-content:flex-end; padding:56px 48px;
+    }
+    .k-quote {
+      font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:300;
+      font-size:clamp(28px,3vw,42px); color:var(--char); line-height:1.3; margin-bottom:16px;
+    }
+    .k-quote-attr { font-size:11px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--gold); }
+    .k-right { padding:80px 72px; display:flex; flex-direction:column; justify-content:center; background:var(--cream); }
+    .k-right .s-title { margin-bottom:12px; }
+    .k-right .s-sub { margin-bottom:40px; }
+    .k-details { display:flex; flex-direction:column; gap:18px; margin-bottom:44px; }
+    .kd { display:flex; align-items:flex-start; gap:14px; }
+    .kd-icon { width:36px; height:36px; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:border-color .25s; }
+    .kd:hover .kd-icon { border-color:var(--gold); }
+    .kd-icon svg { width:15px; height:15px; color:var(--gold); }
+    .kd-lbl { font-size:9px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--muted-2); margin-bottom:3px; }
+    .kd-val { font-size:14px; font-weight:300; letter-spacing:.3px; color:var(--text-2); }
+    .kd-val a { color:var(--text-2); text-decoration:none; cursor:none; transition:color .2s; }
+    .kd-val a:hover { color:var(--gold); }
+    .k-form {}
+    .kf-g { margin-bottom:16px; }
+    .kf-g label { display:block; font-size:9px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--muted-2); margin-bottom:8px; }
+    .kf-g input,.kf-g select,.kf-g textarea {
+      width:100%; background:transparent; border:none; border-bottom:1px solid var(--border);
+      font-family:'Josefin Sans',sans-serif; font-size:14px; font-weight:300;
+      color:var(--text); padding:10px 0; outline:none;
+      transition:border-color .25s;
+    }
+    .kf-g input:focus,.kf-g select:focus,.kf-g textarea:focus { border-color:var(--gold); }
+    .kf-g input::placeholder,.kf-g textarea::placeholder { color:var(--muted-2); }
+    .kf-g textarea { resize:none; min-height:90px; }
+    .kf-g select { cursor:none; appearance:none; }
+    .kf-submit {
+      width:100%; background:var(--char); color:var(--cream);
+      font-family:'Josefin Sans',sans-serif; font-size:11px; font-weight:700;
+      letter-spacing:3px; text-transform:uppercase;
+      padding:18px; border:none; cursor:none;
+      display:flex; align-items:center; justify-content:center; gap:10px;
+      transition:background .25s, transform .2s; margin-top:8px;
+    }
+    .kf-submit:hover { background:var(--gold); transform:translateY(-2px); }
+    .kf-submit:disabled { opacity:.5; transform:none; }
+    .kf-success { display:none; font-size:12px; letter-spacing:1px; color:var(--gold); padding:14px; text-align:center; border:1px solid var(--border); margin-top:12px; }
+
+    /* ── FOOTER ── */
+    footer { background:var(--char-2); padding:60px 60px 36px; }
+    .footer-top { max-width:1400px; margin:0 auto; display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:56px; margin-bottom:48px; }
+    .fb p { font-size:12px; font-weight:300; letter-spacing:.5px; color:rgba(253,250,245,.35); line-height:1.9; margin:14px 0; max-width:260px; }
+    .fb-insta { display:inline-flex; align-items:center; gap:8px; font-size:10px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:var(--gold); text-decoration:none; cursor:none; transition:opacity .2s; }
+    .fb-insta:hover { opacity:.7; }
+    .fb-insta svg { width:14px; height:14px; }
+    .fc h5 { font-size:10px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:rgba(253,250,245,.7); margin-bottom:18px; }
+    .fc ul { list-style:none; display:flex; flex-direction:column; gap:10px; }
+    .fc ul a { font-size:13px; font-weight:300; letter-spacing:.3px; color:rgba(253,250,245,.35); text-decoration:none; cursor:none; transition:color .2s; }
+    .fc ul a:hover { color:var(--gold); }
+    .footer-bottom { max-width:1400px; margin:0 auto; border-top:1px solid rgba(255,255,255,.06); padding-top:24px; display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; }
+    .footer-bottom p { font-size:11px; letter-spacing:.5px; color:rgba(253,250,245,.2); }
+    .fbl { display:flex; gap:22px; }
+    .fbl a { font-size:10px; letter-spacing:1px; color:rgba(253,250,245,.2); text-decoration:none; cursor:none; transition:color .2s; }
+    .fbl a:hover { color:rgba(253,250,245,.5); }
+    .yams-c { max-width:1400px; margin:20px auto 0; padding-top:18px; border-top:1px solid rgba(255,255,255,.04); display:flex; justify-content:center; }
+
+    #btt { position:fixed; bottom:24px; right:24px; z-index:90; width:40px; height:40px; border:1px solid var(--border); background:var(--cream); display:flex; align-items:center; justify-content:center; cursor:none; opacity:0; transform:translateY(12px); transition:opacity .3s,transform .3s,background .2s,border-color .2s; }
+    #btt.on { opacity:1; transform:translateY(0); }
+    #btt:hover { background:var(--gold); border-color:var(--gold); }
+    #btt:hover svg { color:white; }
+    #btt svg { width:16px; height:16px; color:var(--gold); transition:color .2s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width:1100px) {
+      #hjem { grid-template-columns:1fr; min-height:auto; }
+      .hero-right { height:55vw; }
+      .hero-right-ov { background:linear-gradient(to top, var(--cream) 0%, transparent 40%); }
+      #om { grid-template-columns:1fr; padding:80px 40px; gap:56px; }
+      .om-img-wrap { display:none; }
+      .tj-grid,.priser-grid { grid-template-columns:1fr 1fr; }
+      #kontakt-meg { grid-template-columns:1fr; }
+      .k-left { display:none; }
+      .k-right { padding:80px 40px; }
+      .pro-steps { grid-template-columns:1fr 1fr; gap:48px; }
+      .pro-steps::before { display:none; }
+      .footer-top { grid-template-columns:1fr 1fr; gap:40px; }
+    }
+    @media (max-width:768px) {
+      nav { padding:0 20px; }
+      .nav-links,.nav-cta { display:none; }
+      .burger { display:flex; }
+      .hero-left { padding:100px 24px 60px; }
+      #om { padding:64px 20px; }
+      .section-divider { padding:0 20px; }
+      #tjenester,#priser,#prosessen,#galleri { padding:64px 0; }
+      .tj-inner,.priser-inner { padding:0 20px; }
+      .gal-header { padding:0 20px; }
+      .g-strip { padding:0 20px; }
+      #prosessen { padding:64px 20px; }
+      .tj-grid,.priser-grid { grid-template-columns:1fr; }
+      footer { padding:48px 20px 32px; }
+      .footer-top { grid-template-columns:1fr; gap:32px; }
+      .footer-bottom { flex-direction:column; text-align:center; }
+      body { cursor:auto; }
+      #cur,#cur-ring { display:none; }
+    }
+    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none !important; transition-duration:.01ms !important; } }
+  </style>
+</head>
+<body>
+  <div id="cur"></div>
+  <div id="cur-ring"></div>
+  <button id="btt" aria-label="Til toppen">
+    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+  </button>
+
+  <!-- ── NAV ── -->
+  <nav id="nav">
+    <a href="#hjem" class="nav-logo">
+      <div class="nav-logo-mark">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/></svg>
+      </div>
+      <span class="nav-logo-text">BO-Design</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#om">Om</a></li>
+      <li><a href="#tjenester">Tjenester</a></li>
+      <li><a href="#priser">Priser</a></li>
+      <li><a href="#galleri">Galleri</a></li>
+    </ul>
+    <a href="#kontakt-meg" class="nav-cta">Kontakt meg</a>
+    <button class="burger" id="burger"><span></span><span></span><span></span></button>
+  </nav>
+  <div class="mob-nav" id="mob-nav">
+    <a href="#om" class="mob-l">Om</a>
+    <a href="#tjenester" class="mob-l">Tjenester</a>
+    <a href="#priser" class="mob-l">Priser</a>
+    <a href="#galleri" class="mob-l">Galleri</a>
+    <a href="#kontakt-meg" class="mob-l">Kontakt</a>
+  </div>
+
+  <!-- ── HERO ── -->
+  <section id="hjem">
+    <div class="hero-left">
+      <div class="hero-ghost">B</div>
+      <div class="hero-left-inner">
+        <div class="hero-eyebrow">
+          <div class="hero-eyebrow-line"></div>
+          Interiørdesign · Trondheim
+        </div>
+        <h1 class="hero-title">
+          <span class="line"><span>Interiørdesign</span></span>
+          <span class="line"><span class="italic gold">med sjel</span></span>
+          <span class="line"><span>og estetikk.</span></span>
+        </h1>
+        <div class="hero-orn">
+          <div class="orn orn-sm"><div class="orn-line"></div><div class="orn-diamond"></div><div class="orn-line" style="max-width:200px"></div></div>
+        </div>
+        <p class="hero-sub">Moderne, detaljfokusert og kreativt interiørdesign for private hjem — fra fargevalg og materialer til møbler og belysning. Hver løsning er skreddersydd til deg.</p>
+        <div class="hero-ctas">
+          <a href="#tjenester" class="btn-primary magnetic">
+            Se tjenester
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+          <a href="#kontakt-meg" class="btn-outline">Kontakt meg</a>
+        </div>
+      </div>
+      <div class="hero-scroll">
+        <div class="hs-line"></div>
+        Scroll
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-corner-tl"></div>
+      <div class="hero-corner-br"></div>
+      <img
+        src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1400&q=90"
+        alt="Interiørdesign av BO-Design"
+        loading="eager"
+        onerror="this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1400&q=90'"
+      />
+      <div class="hero-right-ov"></div>
+    </div>
+  </section>
+
+  <!-- ── MARQUEE ── -->
+  <div class="mq-section">
+    <div class="mq-track">
+      <div class="mq-item"><span class="hl">Farge &amp; Materialer</span><div class="mq-orn"></div></div>
+      <div class="mq-item"><span>Møbelforslag</span><div class="mq-orn"></div></div>
+      <div class="mq-item"><span class="hl">Dekorasjonspakke</span><div class="mq-orn"></div></div>
+      <div class="mq-item"><span>Belysningsplan</span><div class="mq-orn"></div></div>
+      <div class="mq-item"><span class="hl">Interiørveiledning</span><div class="mq-orn"></div></div>
+      <div class="mq-item"><span>Hjemstaging</span><div class="mq-orn"></div></div>
+      <div class="mq-item"><span class="hl">3D-tegninger</span><div class="mq-orn"></div></div>
+      <div class="mq-item"><span>Digitale Collager</span><div class="mq-orn"></div></div>
+      <div class="mq-item"><span class="hl">Farge &amp; Materialer</span><div class="mq-orn"></div></div>
+      <div class="mq-item"><span>Møbelforslag</span><div class="mq-orn"></div></div>
+      <div class="mq-item"><span class="hl">Dekorasjonspakke</span><div class="mq-orn"></div></div>
+      <div class="mq-item"><span>Belysningsplan</span><div class="mq-orn"></div></div>
+      <div class="mq-item"><span class="hl">Interiørveiledning</span><div class="mq-orn"></div></div>
+      <div class="mq-item"><span>Hjemstaging</span><div class="mq-orn"></div></div>
+      <div class="mq-item"><span class="hl">3D-tegninger</span><div class="mq-orn"></div></div>
+      <div class="mq-item"><span>Digitale Collager</span><div class="mq-orn"></div></div>
+    </div>
+  </div>
+
+  <!-- ── OM LENE ── -->
+  <section id="om">
+    <div class="om-text">
+      <div class="s-eye reveal">Om designeren</div>
+      <h2 class="s-title reveal d1" style="margin-bottom:8px">Lene <span class="italic gold">Fjeldvær</span></h2>
+      <div class="orn reveal d2" style="margin:20px 0"><div class="orn-line"></div><div class="orn-diamond"></div><div class="orn-line"></div></div>
+      <p class="om-quote reveal d2">"Å skape et hjem med god atmosfære og særpreg, samtidig som det er funksjonelt — det er kjernen i alt jeg gjør."</p>
+      <p class="om-body reveal d3">Lene er utdannet innen bolig og interiørdesign for private hjem, og brenner for farge, estetikk og de gode detaljene. Med en moderne, detaljfokusert og kreativ tilnærming arbeider hun tett med kundene for å forstå deres ønsker og behov fra første stund.</p>
+      <p class="om-body reveal d4" style="margin-top:-20px">Lene har bred erfaring med å veilede ved boligsalg og har stylet en rekke boliger for salg i Trondheim-området. Enten det dreier seg om et enkelt rom eller en komplett bolig — hun møter hvert prosjekt med like mye engasjement og dedikasjon.</p>
+      <div class="om-sig reveal d5">
+        Lene Fjeldvær
+        <span>Interiørdesigner · BO-Design AS</span>
+      </div>
+    </div>
+    <div class="om-img-wrap">
+      <div class="om-corner-tl"></div>
+      <div class="om-corner-br"></div>
+      <div class="om-img-frame img-wipe">
+        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=85" alt="Interiørdesign av Lene Fjeldvær" loading="lazy"/>
+      </div>
+      <div class="om-badge">
+        <div class="om-badge-name">Lene Fjeldvær</div>
+        <div class="om-badge-role">Interiørdesigner</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── DIVIDER ── -->
+  <div class="section-divider" style="padding:0 60px;max-width:1400px;margin:0 auto">
+    <div class="orn reveal"><div class="orn-line"></div><div class="orn-diamond"></div><div class="orn-line"></div></div>
+  </div>
+
+  <!-- ── TJENESTER ── -->
+  <section id="tjenester">
+    <div class="tj-inner">
+      <div class="tj-header">
+        <div>
+          <div class="s-eye reveal">Hva jeg tilbyr</div>
+          <h2 class="s-title reveal d1">Tjenester &amp; <span class="italic gold">pakker.</span></h2>
+        </div>
+        <p class="s-sub reveal d2" style="text-align:right;max-width:320px">Alt fra en enkelt dekorasjonspakke til komplett boligdesign og hjemstaging.</p>
+      </div>
+      <div class="tj-grid">
+
+        <div class="tj-card tilt-card reveal">
+          <div class="tj-num">01</div>
+          <div class="tj-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg></div>
+          <div class="tj-title">Farge- og materialepakke</div>
+          <div class="tj-desc">Veggfarger, tapeter, gulv, gardiner, fliser og takfarge. Inkluderer digitalt collage, romdiagram og leverandørliste.</div>
+          <div class="tj-price">Fra 5.000 kr + 1.600 kr konsultasjon</div>
+        </div>
+
+        <div class="tj-card tilt-card reveal d1">
+          <div class="tj-num">02</div>
+          <div class="tj-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg></div>
+          <div class="tj-title">Med møbelforslag</div>
+          <div class="tj-desc">Alt fra pakke 1 + innbygde løsninger som garderobeskap, baderomsutstyr, kjøkken og møbler. Inkluderer 3D-tegninger.</div>
+          <div class="tj-price">Fra 11.000 kr — 17.500 kr</div>
+        </div>
+
+        <div class="tj-card tilt-card reveal d2">
+          <div class="tj-num">03</div>
+          <div class="tj-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg></div>
+          <div class="tj-title">Dekorasjonspakke</div>
+          <div class="tj-desc">Dekorative oppdateringer med eksisterende møbler og materialer. Puter, kunst, tepper og tilbehør — presentert via digitalt collage.</div>
+          <div class="tj-price">Fra 4.000 kr</div>
+        </div>
+
+        <div class="tj-card tilt-card reveal d3">
+          <div class="tj-num">04</div>
+          <div class="tj-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg></div>
+          <div class="tj-title">Belysningspakke</div>
+          <div class="tj-desc">Planlegging av plassering og forslag til generell, dekorativ og aksent-belysning for en komplett lysplan i boligen.</div>
+          <div class="tj-price">7.500 kr — 15.000 kr</div>
+        </div>
+
+        <div class="tj-card tilt-card reveal d4">
+          <div class="tj-num">05</div>
+          <div class="tj-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div>
+          <div class="tj-title">Interiørveiledning</div>
+          <div class="tj-desc">Hjembesøk for råd ved boligsalg eller renovering. Inkluderer gjennomgang av rom og anbefalinger du kan handle på.</div>
+          <div class="tj-price">1.800 kr hjembesøk · 500 kr rapport</div>
+        </div>
+
+        <div class="tj-card tilt-card reveal d5">
+          <div class="tj-num">06</div>
+          <div class="tj-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg></div>
+          <div class="tj-title">Hjemstaging</div>
+          <div class="tj-desc">Optimalisering av boligen for salg. Full staging med alt inventar, eller lett staging med eksisterende møbler tilsatt tekstiler og dekorasjon.</div>
+          <div class="tj-price">Pris på forespørsel</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PROSESSEN ── -->
+  <section id="prosessen">
+    <div class="pro-inner">
+      <div class="pro-ghost">DESIGN</div>
+      <div class="pro-header">
+        <div class="s-eye reveal" style="justify-content:center">Slik jobber vi</div>
+        <h2 class="s-title reveal d1" style="color:var(--cream);margin-bottom:12px">Prosessen, <span class="italic" style="color:var(--gold)">steg for steg.</span></h2>
+        <div class="orn reveal d2" style="margin:20px auto 0;max-width:300px"><div class="orn-line"></div><div class="orn-diamond"></div><div class="orn-line"></div></div>
+      </div>
+      <div class="pro-steps">
+        <div class="pro-step reveal">
+          <div class="pro-num-wrap"><span class="pro-num">I</span></div>
+          <div class="pro-title">Første samtale</div>
+          <p class="pro-desc">Vi møtes eller snakkes, og Lene blir kjent med din smak, ønsker og behov. Ingen detalj er for liten.</p>
+        </div>
+        <div class="pro-step reveal d1">
+          <div class="pro-num-wrap"><span class="pro-num">II</span></div>
+          <div class="pro-title">Hjembesøk</div>
+          <p class="pro-desc">Lene besøker boligen og måler, dokumenterer og observerer det naturlige lyset og eksisterende elementer.</p>
+        </div>
+        <div class="pro-step reveal d2">
+          <div class="pro-num-wrap"><span class="pro-num">III</span></div>
+          <div class="pro-title">Designforslag</div>
+          <p class="pro-desc">Du mottar digitale collager, romdiagrammer, 3D-tegninger og en komplett leverandørliste — alt klart til handling.</p>
+        </div>
+        <div class="pro-step reveal d3">
+          <div class="pro-num-wrap"><span class="pro-num">IV</span></div>
+          <div class="pro-title">Oppfølging</div>
+          <p class="pro-desc">Lene er tilgjengelig for spørsmål og justeringer gjennom hele prosessen, fra valg til ferdig rom.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── GALLERI ── -->
+  <section id="galleri">
+    <div class="gal-header">
+      <div>
+        <div class="s-eye reveal">Inspirasjon</div>
+        <h2 class="s-title reveal d1">Utvalgte <span class="italic gold">rom.</span></h2>
+      </div>
+      <div class="drag-hint reveal d2">
+        <span>Dra for å bla</span>
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </div>
+    </div>
+    <div class="g-strip" id="gstrip">
+
+      <div class="g-card">
+        <div class="g-card-frame">
+          <div class="g-card-img"><img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600&q=80" alt="Stue" loading="lazy"/></div>
+          <div class="g-card-body"><div class="g-card-cat">Stue</div><div class="g-card-name">Moderne ro</div></div>
+        </div>
+      </div>
+
+      <div class="g-card">
+        <div class="g-card-frame">
+          <div class="g-card-img"><img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&q=80" alt="Soverom" loading="lazy"/></div>
+          <div class="g-card-body"><div class="g-card-cat">Soverom</div><div class="g-card-name">Mjuk atmosfære</div></div>
+        </div>
+      </div>
+
+      <div class="g-card">
+        <div class="g-card-frame">
+          <div class="g-card-img"><img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80" alt="Kjøkken" loading="lazy"/></div>
+          <div class="g-card-body"><div class="g-card-cat">Kjøkken</div><div class="g-card-name">Funksjon møter skjønnhet</div></div>
+        </div>
+      </div>
+
+      <div class="g-card">
+        <div class="g-card-frame">
+          <div class="g-card-img"><img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=600&q=80" alt="Bad" loading="lazy"/></div>
+          <div class="g-card-body"><div class="g-card-cat">Bad</div><div class="g-card-name">Spa-følelse hjemme</div></div>
+        </div>
+      </div>
+
+      <div class="g-card">
+        <div class="g-card-frame">
+          <div class="g-card-img"><img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600&q=80" alt="Spisestue" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80'"/></div>
+          <div class="g-card-body"><div class="g-card-cat">Spisestue</div><div class="g-card-name">Samling og stemning</div></div>
+        </div>
+      </div>
+
+      <div class="g-card">
+        <div class="g-card-frame">
+          <div class="g-card-img"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80" alt="Helhetlig design" loading="lazy"/></div>
+          <div class="g-card-body"><div class="g-card-cat">Helhetlig</div><div class="g-card-name">Fra gulv til tak</div></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── PRISER ── -->
+  <section id="priser">
+    <div class="priser-inner">
+      <div class="priser-header">
+        <div class="s-eye reveal" style="justify-content:center">Invester i hjemmet ditt</div>
+        <h2 class="s-title reveal d1" style="margin-bottom:10px">Transparente <span class="italic gold">priser.</span></h2>
+        <div class="orn reveal d2" style="margin:18px auto;max-width:280px"><div class="orn-line"></div><div class="orn-diamond"></div><div class="orn-line"></div></div>
+      </div>
+      <div class="priser-grid">
+
+        <div class="pris-card tilt-card reveal">
+          <div class="pc-eyebrow">Enkeltrom</div>
+          <div class="pc-name">Dekorasjonspakke</div>
+          <div class="pc-price">4.000 <span>kr</span></div>
+          <div class="pc-divider"></div>
+          <div class="pc-includes">
+            <div class="pc-inc"><div class="pc-dot"></div>Råd om eksisterende møbler</div>
+            <div class="pc-inc"><div class="pc-dot"></div>Puter, kunst, tepper og tilbehør</div>
+            <div class="pc-inc"><div class="pc-dot"></div>Digitalt collage med beskrivelser</div>
+            <div class="pc-inc"><div class="pc-dot"></div>Leverandørliste inkludert</div>
+          </div>
+          <a href="#kontakt-meg" class="pc-btn">Book pakke</a>
+        </div>
+
+        <div class="pris-card featured tilt-card reveal d1">
+          <div class="pc-eyebrow">Opp til 100 m²</div>
+          <div class="pc-name">Farge, materialer &amp; møbler</div>
+          <div class="pc-price">14.750 <span>kr</span></div>
+          <div class="pc-divider"></div>
+          <div class="pc-includes">
+            <div class="pc-inc"><div class="pc-dot"></div>Veggfarger, tapeter &amp; gulv</div>
+            <div class="pc-inc"><div class="pc-dot"></div>Møbelforslag og innbygde løsninger</div>
+            <div class="pc-inc"><div class="pc-dot"></div>3D-tegninger og digitale collager</div>
+            <div class="pc-inc"><div class="pc-dot"></div>Leverandørliste og romdiagram</div>
+            <div class="pc-inc"><div class="pc-dot"></div>1.600 kr konsultasjon inkl.</div>
+          </div>
+          <a href="#kontakt-meg" class="pc-btn">Book pakke</a>
+        </div>
+
+        <div class="pris-card tilt-card reveal d2">
+          <div class="pc-eyebrow">Boligsalg</div>
+          <div class="pc-name">Hjemstaging</div>
+          <div class="pc-price">Pris på<span style="font-size:22px"> forespørsel</span></div>
+          <div class="pc-divider"></div>
+          <div class="pc-includes">
+            <div class="pc-inc"><div class="pc-dot"></div>Full staging — alt inventar inkl.</div>
+            <div class="pc-inc"><div class="pc-dot"></div>Lett staging med dine møbler</div>
+            <div class="pc-inc"><div class="pc-dot"></div>Tilsatt tekstiler, lys og dekor</div>
+            <div class="pc-inc"><div class="pc-dot"></div>Optimalisert for visning og salg</div>
+          </div>
+          <a href="#kontakt-meg" class="pc-btn">Be om tilbud</a>
+        </div>
+
+      </div>
+      <p class="reveal" style="text-align:center;font-size:11px;letter-spacing:1px;color:var(--muted-2);margin-top:24px">* Alle priser er veiledende. Konsultasjon 1.600 kr kommer i tillegg der det er angitt.</p>
+    </div>
+  </section>
+
+  <!-- ── KONTAKT ── -->
+  <section id="kontakt-meg">
+    <div class="k-left">
+      <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=900&q=80" alt="Interiørdesign" loading="lazy"/>
+      <div class="k-left-ov">
+        <p class="k-quote">"Hvert rom har sin egen stemme — min jobb er å hjelpe den frem."</p>
+        <p class="k-quote-attr">— Lene Fjeldvær, BO-Design AS</p>
+      </div>
+    </div>
+    <div class="k-right">
+      <div class="s-eye reveal">Ta kontakt</div>
+      <h2 class="s-title reveal d1" style="margin-bottom:12px">La oss skape noe <span class="italic gold">vakkert.</span></h2>
+      <p class="s-sub reveal d2">Send en melding eller ring direkte — Lene setter pris på alle henvendelser, store som små.</p>
+      <div class="k-details reveal d3">
+        <div class="kd">
+          <div class="kd-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg></div>
+          <div><div class="kd-lbl">Telefon</div><div class="kd-val"><a href="tel:41007980">+47 41 00 79 80</a></div></div>
+        </div>
+        <div class="kd">
+          <div class="kd-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></div>
+          <div><div class="kd-lbl">E-post</div><div class="kd-val"><a href="mailto:lene@bo-design.no">lene@bo-design.no</a></div></div>
+        </div>
+        <div class="kd">
+          <div class="kd-icon"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></div>
+          <div><div class="kd-lbl">Instagram</div><div class="kd-val"><a href="https://www.instagram.com/bodesign__" target="_blank" rel="noopener">@bodesign__</a></div></div>
+        </div>
+      </div>
+      <form id="kform" class="k-form reveal d4" novalidate>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+          <div class="kf-g"><label>Navn *</label><input type="text" required placeholder="Ditt navn"/></div>
+          <div class="kf-g"><label>E-post *</label><input type="email" required placeholder="din@epost.no"/></div>
+        </div>
+        <div class="kf-g"><label>Hva er du interessert i?</label>
+          <select>
+            <option value="">Velg tjeneste...</option>
+            <option>Farge- og materialepakke</option>
+            <option>Med møbelforslag</option>
+            <option>Dekorasjonspakke</option>
+            <option>Belysningspakke</option>
+            <option>Interiørveiledning</option>
+            <option>Hjemstaging</option>
+          </select>
+        </div>
+        <div class="kf-g"><label>Melding</label><textarea placeholder="Fortell gjerne litt om rommet eller boligen din..."></textarea></div>
+        <button type="submit" class="kf-submit magnetic" id="kfsub">
+          <svg style="width:14px;height:14px" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          Send melding
+        </button>
+        <div class="kf-success" id="kfsuccess">Takk for din henvendelse. Lene tar kontakt snarest.</div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-top">
+      <div class="fb">
+        <a href="#hjem" class="nav-logo">
+          <div class="nav-logo-mark"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/></svg></div>
+          <span class="nav-logo-text" style="color:rgba(253,250,245,.8)">BO-Design</span>
+        </a>
+        <p>Interiørdesign med sjel og sans for estetikk. Skreddersydde løsninger for private hjem i Trondheim og omegn — av Lene Fjeldvær.</p>
+        <a href="https://www.instagram.com/bodesign__" target="_blank" rel="noopener" class="fb-insta">
+          <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          @bodesign__
+        </a>
+      </div>
+      <div class="fc">
+        <h5>Tjenester</h5>
+        <ul>
+          <li><a href="#tjenester">Farge &amp; materialer</a></li>
+          <li><a href="#tjenester">Møbelforslag</a></li>
+          <li><a href="#tjenester">Dekorasjonspakke</a></li>
+          <li><a href="#tjenester">Belysning</a></li>
+          <li><a href="#tjenester">Hjemstaging</a></li>
+        </ul>
+      </div>
+      <div class="fc">
+        <h5>Navigasjon</h5>
+        <ul>
+          <li><a href="#om">Om Lene</a></li>
+          <li><a href="#prosessen">Prosessen</a></li>
+          <li><a href="#galleri">Galleri</a></li>
+          <li><a href="#priser">Priser</a></li>
+          <li><a href="#kontakt-meg">Kontakt</a></li>
+        </ul>
+      </div>
+      <div class="fc">
+        <h5>Kontakt</h5>
+        <ul>
+          <li><a href="tel:41007980">+47 41 00 79 80</a></li>
+          <li><a href="mailto:lene@bo-design.no">lene@bo-design.no</a></li>
+          <li><a href="https://www.instagram.com/bodesign__" target="_blank">@bodesign__</a></li>
+          <li><a href="https://bo-design.no" target="_blank">bo-design.no</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 BO-Design AS · Lene Fjeldvær · Alle rettigheter forbeholdt.</p>
+      <div class="fbl"><a href="#">Personvern</a><a href="#">Vilkår</a></div>
+    </div>
+    <!-- YAMS AS Primary Dark -->
+    <div class="yams-c">
+      <div style="display:inline-flex;align-items:center;gap:10px;background:#0B0B0B;border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:12px 22px;">
+        <svg width="18" height="24" viewBox="0 0 34 46" fill="none">
+          <line x1="2" y1="2" x2="17" y2="19" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round"/>
+          <line x1="32" y1="2" x2="17" y2="19" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round"/>
+          <line x1="17" y1="19" x2="17" y2="44" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round"/>
+          <circle cx="17" cy="19" r="4.5" fill="#C8A660"/>
+        </svg>
+        <div style="display:flex;align-items:baseline;gap:4px;line-height:1;">
+          <span style="font-family:'Outfit','Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:700;letter-spacing:-0.5px;color:#FFFFFF;">YAMS</span>
+          <span style="font-family:'Outfit','Helvetica Neue',Arial,sans-serif;font-size:13px;font-weight:300;color:rgba(255,255,255,.4);">AS</span>
+        </div>
+        <span style="width:1px;height:16px;background:rgba(255,255,255,.12);display:block;"></span>
+        <span style="font-family:'Outfit','Helvetica Neue',Arial,sans-serif;font-size:10px;font-weight:400;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.28);">Website Solutions</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  // ── Cursor
+  const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+  (function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+  document.querySelectorAll('a,button,.tj-card,.pris-card,.g-card,.ovn-feat,.kd').forEach(el=>{
+    el.addEventListener('mouseenter',()=>document.body.classList.add('cg'));
+    el.addEventListener('mouseleave',()=>document.body.classList.remove('cg'));
+  });
+
+  // ── Nav
+  const nav=document.getElementById('nav');
+  window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>60),{passive:true});
+
+  // ── Hero
+  const hero=document.getElementById('hjem');
+  const go=()=>hero.classList.add('on');
+  window.addEventListener('load',go);setTimeout(go,100);
+
+  // ── Mobile menu
+  const burger=document.getElementById('burger'),mob=document.getElementById('mob-nav');
+  let mo=false;
+  burger.addEventListener('click',()=>{
+    mo=!mo;mob.classList.toggle('open',mo);
+    const s=burger.querySelectorAll('span');
+    s[0].style.transform=mo?'rotate(45deg) translate(5px,5px)':'';
+    s[1].style.opacity=mo?'0':'1';
+    s[2].style.transform=mo?'rotate(-45deg) translate(5px,-5px)':'';
+  });
+  document.querySelectorAll('.mob-l').forEach(l=>l.addEventListener('click',()=>{
+    mo=false;mob.classList.remove('open');
+    burger.querySelectorAll('span').forEach(s=>{s.style.transform='';s.style.opacity='';});
+  }));
+
+  // ── Reveal
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');obs.unobserve(e.target);}});
+  },{threshold:.07,rootMargin:'0px 0px -28px 0px'});
+  document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>obs.observe(el));
+
+  // ── img-wipe
+  const wObs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.style.clipPath='inset(0 0% 0 0)';wObs.unobserve(e.target);}});
+  },{threshold:.1});
+  document.querySelectorAll('.img-wipe').forEach(el=>{
+    el.style.clipPath='inset(0 100% 0 0)';
+    el.style.transition='clip-path 1.1s cubic-bezier(.77,0,.18,1)';
+    wObs.observe(el);
+  });
+
+  // ── 3D tilt on cards
+  document.querySelectorAll('.tilt-card').forEach(card=>{
+    card.addEventListener('mousemove',e=>{
+      const r=card.getBoundingClientRect();
+      const x=(e.clientX-r.left)/r.width-.5;
+      const y=(e.clientY-r.top)/r.height-.5;
+      card.style.transform=`perspective(900px) rotateX(${y*-6}deg) rotateY(${x*6}deg) translateY(-4px)`;
+      card.style.transition='transform .06s ease';
+    });
+    card.addEventListener('mouseleave',()=>{card.style.transform='';card.style.transition='transform .6s ease';});
+  });
+
+  // ── Magnetic buttons
+  document.querySelectorAll('.magnetic').forEach(btn=>{
+    btn.addEventListener('mousemove',e=>{
+      const r=btn.getBoundingClientRect();
+      const x=e.clientX-r.left-r.width/2;
+      const y=e.clientY-r.top-r.height/2;
+      btn.style.transform=`translate(${x*.2}px,${y*.2}px)`;
+    });
+    btn.addEventListener('mouseleave',()=>btn.style.transform='');
+  });
+
+  // ── Gallery drag
+  const gs=document.getElementById('gstrip');
+  let dn=false,sx,sl;
+  gs.addEventListener('mousedown',e=>{dn=true;sx=e.pageX-gs.offsetLeft;sl=gs.scrollLeft;gs.style.cursor='grabbing';});
+  gs.addEventListener('mouseleave',()=>{dn=false;gs.style.cursor='grab';});
+  gs.addEventListener('mouseup',()=>{dn=false;gs.style.cursor='grab';});
+  gs.addEventListener('mousemove',e=>{if(!dn)return;e.preventDefault();gs.scrollLeft=sl-(e.pageX-gs.offsetLeft-sx)*1.4;});
+  let tx=0,tsl=0;
+  gs.addEventListener('touchstart',e=>{tx=e.touches[0].pageX;tsl=gs.scrollLeft;},{passive:true});
+  gs.addEventListener('touchmove',e=>{gs.scrollLeft=tsl+(tx-e.touches[0].pageX);},{passive:true});
+
+  // ── Back to top
+  const btt=document.getElementById('btt');
+  window.addEventListener('scroll',()=>btt.classList.toggle('on',scrollY>500),{passive:true});
+  btt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+  // ── Form
+  document.getElementById('kform').addEventListener('submit',e=>{
+    e.preventDefault();
+    if(!e.target.checkValidity()){e.target.reportValidity();return;}
+    const btn=document.getElementById('kfsub');
+    btn.disabled=true;btn.textContent='Sender...';
+    setTimeout(()=>{btn.style.display='none';document.getElementById('kfsuccess').style.display='block';e.target.reset();},1400);
+  });
+
+  // ── Smooth anchor
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',e=>{
+      const t=document.querySelector(a.getAttribute('href'));
+      if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}
+    });
+  });
+  </script>
+</body>
+</html>
